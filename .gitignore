@@ -336,5 +336,4 @@ web-bundles/
 .cursor/
 .windsurf/
 
-config.py
 weather_cache.json
