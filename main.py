@@ -11,7 +11,8 @@ from datetime import datetime
 
 from config import (
     EVENING_ANALYSIS_HOUR, MORNING_ANALYSIS_HOUR,
-    CHECK_INTERVAL_MINUTES, NOTIFICATION_TITLE
+    CHECK_INTERVAL_MINUTES, NOTIFICATION_TITLE,
+    NTFY_ENABLED, NTFY_SERVER, NTFY_TOPIC, NTFY_AUTH_TOKEN
 )
 from weather import fetch_weather_data
 from decisions import analyze_sleep_conditions, analyze_daytime_conditions, format_notification_message
@@ -31,6 +32,35 @@ def send_system_notification(message):
     except FileNotFoundError:
         print("notify-send not found, falling back to print")
         print(f"NOTIFICATION: {message}")
+
+def send_ntfy_notification(message, title=None):
+    """Send notification via ntfy.sh"""
+    if not NTFY_ENABLED:
+        return
+
+    try:
+        import requests
+
+        url = f"{NTFY_SERVER}/{NTFY_TOPIC}"
+        headers = {'Content-Type': 'text/plain'}
+
+        if NTFY_AUTH_TOKEN:
+            headers['Authorization'] = f'Bearer {NTFY_AUTH_TOKEN}'
+
+        if title:
+            headers['Title'] = title
+
+        response = requests.post(url, data=message, headers=headers, timeout=10)
+
+        if response.status_code == 200:
+            print("ntfy.sh notification sent successfully")
+        else:
+            print(f"Failed to send ntfy.sh notification: {response.status_code}")
+
+    except ImportError:
+        print("requests library not available for ntfy.sh notifications")
+    except Exception as e:
+        print(f"ntfy.sh notification error: {e}")
 
 def send_email_notification(message):
     """Send email notification (placeholder for future implementation)"""
@@ -61,6 +91,7 @@ def perform_evening_analysis():
         # Format and send notification
         message = format_notification_message(recommendations)
         send_system_notification(message)
+        send_ntfy_notification(message, "SandWACH - Evening Climate Control")
 
         print("Evening analysis completed successfully")
 
@@ -93,6 +124,7 @@ def perform_morning_analysis():
         # Format and send notification
         message = format_notification_message(recommendations)
         send_system_notification(message)
+        send_ntfy_notification(message, "SandWACH - Morning Climate Control")
 
         print("Morning analysis completed successfully")
 

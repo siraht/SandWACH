@@ -8,6 +8,7 @@ A minimal Python application that fetches weather data and provides automated cl
 - 🛏️ Analyzes overnight temperature forecasts for sleep recommendations
 - ☀️ Analyzes daytime temperature forecasts for habitation recommendations
 - 🔔 Sends system notifications at appropriate times (8 PM and 7 AM)
+- 📱 **NEW:** Optional ntfy.sh notifications for Android/iOS devices
 - 🌐 Provides single API endpoint for external app integration
 - 🔧 Includes basic MCP server support
 - 💾 Simple SQLite database for caching and notifications
@@ -48,6 +49,46 @@ Edit `config.py` to customize:
 - **EVENING_ANALYSIS_HOUR**: Hour for evening analysis (default: 20 = 8 PM)
 - **MORNING_ANALYSIS_HOUR**: Hour for morning analysis (default: 7 = 7 AM)
 - **API_KEY_REQUIRED**: API key for external access (default: sandwach_secret_key_2025)
+
+## ntfy.sh Notifications Setup
+
+SandWACH now supports sending notifications to your Android/iOS devices via ntfy.sh.
+
+### 1. Install ntfy App
+- **Android**: Download from [Google Play Store](https://play.google.com/store/apps/details?id=io.heckel.ntfy)
+- **iOS**: Download from [App Store](https://apps.apple.com/us/app/ntfy/id1625396347)
+
+### 2. Create a Topic
+1. Go to https://ntfy.sh
+2. Create a new topic (e.g., "sandwach")
+3. Subscribe to it in your ntfy app
+
+### 3. Configure SandWACH
+Edit your `.env` file:
+
+```bash
+# Enable ntfy.sh notifications
+NTFY_ENABLED=true
+# Your ntfy topic name
+NTFY_TOPIC=sandwach
+# Optional: Use a custom ntfy server
+NTFY_SERVER=https://ntfy.sh
+# Optional: Auth token for private topics
+NTFY_AUTH_TOKEN=your_auth_token_here
+```
+
+### 4. Test Notifications
+```bash
+# Test ntfy.sh notification
+curl -d "Test message from SandWACH" https://ntfy.sh/your_topic_name
+```
+
+### Features
+- 📱 Receive notifications on your phone alongside system notifications
+- 🔒 Optional authentication for private topics
+- 🌐 Works with custom ntfy servers
+- 📊 Clear titles for morning/evening notifications
+- 🔄 Automatic fallback if ntfy.sh is unavailable
 
 ## API Usage
 
