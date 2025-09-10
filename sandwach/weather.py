@@ -49,7 +49,7 @@ def fetch_weather_data():
             },
             "forecast": [
                 {
-                    "time": hour["EpochTime"],
+                    "time": hour["EpochDateTime"],
                     "temperature": hour["Temperature"]["Value"],
                     "conditions": hour["IconPhrase"],
                     "precipitation_probability": hour.get("PrecipitationProbability", 0)
