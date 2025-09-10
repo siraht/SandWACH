@@ -29,15 +29,34 @@ def fetch_weather_data():
         # Fetch current conditions
         current_url = f"{API_BASE_URL}/currentconditions/v1/{LOCATION_KEY}"
         params = {"apikey": API_KEY, "details": "true"}
+        print(f"Requesting: {current_url}")
+        print(f"Params: {params}")
         current_response = requests.get(current_url, params=params, timeout=30)
-        current_response.raise_for_status()
-        current_data = current_response.json()[0]
+        print(f"Response URL: {current_response.url}")
+        print(f"Response Status: {current_response.status_code}")
+        try:
+            current_response.raise_for_status()
+            current_data = current_response.json()[0]
+        except requests.HTTPError as http_err:
+            print(f"HTTP Error: {http_err}")
+            print(f"Response Text: {current_response.text}")
+            raise
+
+        # DEBUG: Print raw current conditions response
+        print("=== RAW CURRENT CONDITIONS RESPONSE ===")
+        print(json.dumps(current_response.json(), indent=2))
+        print("=== END RAW CURRENT ===")
 
         # Fetch hourly forecast (12 hours for analysis)
         forecast_url = f"{API_BASE_URL}/forecasts/v1/hourly/12hour/{LOCATION_KEY}"
         forecast_response = requests.get(forecast_url, params=params, timeout=30)
         forecast_response.raise_for_status()
         forecast_data = forecast_response.json()
+
+        # DEBUG: Print raw forecast response
+        print("=== RAW FORECAST RESPONSE ===")
+        print(json.dumps(forecast_response.json(), indent=2))
+        print("=== END RAW FORECAST ===")
 
         # Combine data
         weather_data = {
@@ -66,6 +85,16 @@ def fetch_weather_data():
 
     except requests.RequestException as e:
         print(f"API request failed: {e}")
+        # DEBUG: Print response details on error
+        if hasattr(e, 'response') and e.response:
+            print("=== ERROR RESPONSE DETAILS ===")
+            print(f"Status Code: {e.response.status_code}")
+            print(f"Headers: {dict(e.response.headers)}")
+            try:
+                print(f"Response Body: {e.response.text}")
+            except:
+                print("Could not read response body")
+            print("=== END ERROR RESPONSE ===")
         # Return cached data as fallback
         cached_data = load_weather_cache()
         if cached_data:
