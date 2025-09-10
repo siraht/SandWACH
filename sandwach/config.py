@@ -17,7 +17,7 @@ load_env()
 
 # Accuweather API Configuration
 API_KEY = os.getenv('ACCUWEATHER_API_KEY')  # Load from environment variable
-LOCATION_KEY = "331999"  # Boulder, CO location key
+LOCATION_KEY = "327347"  # Boulder, CO location key
 API_BASE_URL = "http://dataservice.accuweather.com"
 
 # Temperature Thresholds (°F)
