@@ -1,0 +1,337 @@
+# Operating System Files
+# -----------------------
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.AppleDouble
+.LSOverride
+Icon
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# IDE and Editor Files
+# ---------------------
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+.history/
+
+# JetBrains IDEs (IntelliJ, WebStorm, PyCharm, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# Vim
+*.swp
+*.swo
+*.swn
+.*.swp
+.*.swo
+.*.swn
+*~
+tags
+Session.vim
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Node.js / JavaScript
+# ---------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+.npm
+.yarn/
+.pnp.*
+.eslintcache
+*.tsbuildinfo
+
+# Python
+# ------
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# Java
+# ----
+*.class
+*.log
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+target/
+
+# Ruby
+# ----
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
+.bundle/
+/vendor/bundle
+/lib/bundler/man/
+.rvmrc
+
+# Go
+# --
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+vendor/
+
+# Rust
+# ----
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# C/C++
+# -----
+*.o
+*.a
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+*.app
+*.dSYM/
+
+# .NET / C#
+# ---------
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# PHP
+# ---
+/vendor/
+composer.phar
+.phpunit.result.cache
+
+# Environment and Config Files
+# ----------------------------
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+.env.staging
+*.env
+
+# Logs
+# ----
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Database
+# --------
+*.sqlite
+*.sqlite3
+*.db
+*.db3
+
+# Build Outputs
+# -------------
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+.parcel-cache/
+.webpack/
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+.vuepress/dist
+.temp
+.docusaurus
+
+# Testing
+# -------
+coverage/
+.nyc_output/
+test-results/
+jest-coverage/
+cypress/videos/
+cypress/screenshots/
+
+# Package Manager Locks (comment out if you want to commit these)
+# ----------------------------------------------------------------
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+# composer.lock
+# Gemfile.lock
+# Cargo.lock
+# go.sum
+
+# Temporary Files
+# ---------------
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+.tmp/
+
+# Archives
+# --------
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# SSL Certificates
+# ----------------
+*.pem
+*.key
+*.crt
+*.cer
+*.pfx
+*.p12
+
+# Misc
+# ----
+.sass-cache/
+.connect.lock
+.lock-wscript
+.gradle/
+.terraform/
+*.tfstate
+*.tfstate.*
+.vagrant/
+.dockerignore
+
+# Custom ignore folder
+# --------------------
+.ignore/
+
+# IDE and AI Assistant Folders
+# ----------------------------
+web-bundles/
+.bmad-core/
+.claude/
+.cursor/
+.windsurf/
