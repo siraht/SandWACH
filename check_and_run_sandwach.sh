@@ -155,7 +155,7 @@ show_status() {
 }
 
 # Main script logic
-case "${1:-status}" in
+case "${1:-check}" in
     "start")
         if is_sandwach_running; then
             echo "SandWACH is already running"
@@ -191,9 +191,9 @@ case "${1:-status}" in
         echo "  stop    - Stop SandWACH if running"
         echo "  restart - Stop and restart SandWACH"
         echo "  status  - Show current status"
-        echo "  check   - Check if running, start if not (default)"
+        echo "  check   - Check if running, start if not (default action)"
         echo ""
-        echo "Default action: check"
+        echo "Default action: check (auto-start if not running)"
         exit 1
         ;;
 esac
