@@ -32,7 +32,7 @@ python setup_db.py
 
 ```bash
 # Start the application
-python main.py
+python sandwach.py
 ```
 
 The application will:
@@ -119,7 +119,7 @@ Send JSON-RPC requests to the API server for MCP integration.
 - **weather.py**: Accuweather API client with caching
 - **decisions.py**: Temperature analysis and recommendations
 - **api.py**: HTTP server with API endpoints and MCP support
-- **main.py**: Main scheduling loop and notifications
+- **sandwach.py**: Main scheduling loop and notifications
 - **setup_db.py**: Database initialization
 
 ### Data Flow

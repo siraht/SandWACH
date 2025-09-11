@@ -335,6 +335,4 @@ web-bundles/
 .claude/
 .cursor/
 .windsurf/
-
-config.py
 weather_cache.json

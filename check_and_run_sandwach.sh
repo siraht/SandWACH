@@ -10,24 +10,40 @@ if [ -f "$ENV_FILE" ]; then
 fi
 
 # Default SandWACH directory if not set in environment
-SANDWACH_DIR="${SANDWACH_DIR:-/mnt/user/appdata/sandWACH}"
-MAIN_PY="$SANDWACH_DIR/main.py"
+if [ -n "$SANDWACH_DIR" ]; then
+    : # Use the environment variable
+elif [ -f "$(dirname "$0")/sandwach.py" ]; then
+    SANDWACH_DIR="$(dirname "$0")"
+elif [ -f "./sandwach.py" ]; then
+    SANDWACH_DIR="."
+elif [ -f "/home/travis/WebDev/SandWACH/sandwach.py" ]; then
+    SANDWACH_DIR="/home/travis/WebDev/SandWACH"
+else
+    echo "Error: Cannot find SandWACH directory"
+    exit 1
+fi
+MAIN_PY="$SANDWACH_DIR/sandwach.py"
 LOG_FILE="$SANDWACH_DIR/sandwach.log"
 PID_FILE="$SANDWACH_DIR/sandwach.pid"
 
 # Function to check if SandWACH is running
 is_sandwach_running() {
+    # First check if there's a running python3 sandwach.py process
+    if pgrep -f "python3.*sandwach.py" > /dev/null 2>&1; then
+        return 0  # Running
+    fi
+    
+    # Also check PID file if it exists
     if [ -f "$PID_FILE" ]; then
         PID=$(cat "$PID_FILE")
         if ps -p "$PID" > /dev/null 2>&1; then
             return 0  # Running
         else
             rm -f "$PID_FILE"  # Remove stale PID file
-            return 1  # Not running
         fi
-    else
-        return 1  # Not running (no PID file)
     fi
+    
+    return 1  # Not running
 }
 
 # Function to start SandWACH
@@ -40,9 +56,9 @@ start_sandwach() {
         exit 1
     fi
     
-    # Check if main.py exists
+    # Check if sandwach.py exists
     if [ ! -f "$MAIN_PY" ]; then
-        echo "Error: main.py not found at: $MAIN_PY"
+        echo "Error: sandwach.py not found at: $MAIN_PY"
         exit 1
     fi
     
@@ -55,8 +71,16 @@ start_sandwach() {
     # Start SandWACH in background with nohup
     # Set PYTHONPATH to include the SandWACH directory
     export PYTHONPATH="$SANDWACH_DIR:$PYTHONPATH"
-    nohup python3 main.py > "$LOG_FILE" 2>&1 &
+    nohup python3 sandwach.py > "$LOG_FILE" 2>&1 &
     PID=$!
+    
+    # Wait a moment to get the actual process PID
+    sleep 2
+    # Find the python3 sandwach.py process
+    ACTUAL_PID=$(pgrep -f "python3.*sandwach.py")
+    if [ -n "$ACTUAL_PID" ]; then
+        PID=$ACTUAL_PID
+    fi
     
     # Save PID to file
     echo "$PID" > "$PID_FILE"
@@ -78,36 +102,53 @@ start_sandwach() {
 
 # Function to stop SandWACH
 stop_sandwach() {
-    if [ -f "$PID_FILE" ]; then
-        PID=$(cat "$PID_FILE")
-        if ps -p "$PID" > /dev/null 2>&1; then
-            echo "Stopping SandWACH (PID: $PID)..."
-            kill "$PID"
-            sleep 2
-            
-            # Force kill if still running
+    # Try to find running processes
+    RUNNING_PIDS=$(pgrep -f "python3.*sandwach.py")
+    
+    if [ -n "$RUNNING_PIDS" ]; then
+        echo "Stopping SandWACH processes..."
+        for PID in $RUNNING_PIDS; do
             if ps -p "$PID" > /dev/null 2>&1; then
-                echo "Force killing SandWACH..."
-                kill -9 "$PID"
+                echo "Stopping SandWACH (PID: $PID)..."
+                kill "$PID"
+                sleep 2
+                
+                # Force kill if still running
+                if ps -p "$PID" > /dev/null 2>&1; then
+                    echo "Force killing SandWACH (PID: $PID)..."
+                    kill -9 "$PID"
+                fi
             fi
-            
-            rm -f "$PID_FILE"
-            echo "SandWACH stopped"
-        else
-            echo "SandWACH is not running"
+        done
+        
+        # Also clean up PID file if it exists
+        if [ -f "$PID_FILE" ]; then
             rm -f "$PID_FILE"
         fi
+        
+        echo "SandWACH stopped"
     else
-        echo "SandWACH is not running (no PID file)"
+        echo "SandWACH is not running"
+        # Clean up stale PID file if it exists
+        if [ -f "$PID_FILE" ]; then
+            rm -f "$PID_FILE"
+        fi
     fi
 }
 
 # Function to show status
 show_status() {
     if is_sandwach_running; then
-        PID=$(cat "$PID_FILE")
+        # Try to get PID from file first
+        if [ -f "$PID_FILE" ]; then
+            PID=$(cat "$PID_FILE")
+        else
+            # Get PID from process list
+            PID=$(pgrep -f "python3.*sandwach.py")
+        fi
         echo "SandWACH is running (PID: $PID)"
         echo "Log file: $LOG_FILE"
+        echo "Directory: $SANDWACH_DIR"
     else
         echo "SandWACH is not running"
     fi
