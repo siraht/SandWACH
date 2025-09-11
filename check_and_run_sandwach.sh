@@ -53,6 +53,8 @@ start_sandwach() {
     }
     
     # Start SandWACH in background with nohup
+    # Set PYTHONPATH to include the SandWACH directory
+    export PYTHONPATH="$SANDWACH_DIR:$PYTHONPATH"
     nohup python3 main.py > "$LOG_FILE" 2>&1 &
     PID=$!
     
