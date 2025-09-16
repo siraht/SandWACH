@@ -54,3 +54,16 @@ NTFY_AUTH_TOKEN = os.getenv('NTFY_AUTH_TOKEN', '')  # Optional auth token
 # System Settings
 LOG_LEVEL = "INFO"
 CACHE_DURATION_HOURS = 1
+
+# Temperature Thresholds (°F) for Sleep Logic
+AC_THRESHOLD_SLEEP = 65
+WINDOWS_OPEN_TEMP_SLEEP = 65  # Example: comfortable temp to open windows
+WINDOWS_CLOSED_TEMP_SLEEP = 50 # Example: getting too cold, close windows
+FAN_ON_TEMP_SLEEP = 10
+HEATING_THRESHOLD_SLEEP = 10
+
+# Time-based Rule Configuration (in hours from now)
+AC_TIME_HORIZON_SLEEP = 2       # Check for temp drop within 2 hours
+WINDOWS_OPEN_TIME_HORIZON = 2   # Check for temp drop within 2 hours
+WINDOWS_CLOSED_TIME_HORIZON = 9 # Check until 5 AM (assuming check at 8 PM)
+HEATING_TIME_HORIZON = 7        # Check until 3 AM (assuming check at 8 PM)
